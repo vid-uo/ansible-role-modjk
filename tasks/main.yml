@@ -31,10 +31,6 @@
 - name: compile tomcat-connectors
   command: creates=/usr/local/tomcat-connectors/tomcat-connectors-1.2.41-src/native/apache-2.0/mod_jk.so chdir=/usr/local/tomcat-connectors/tomcat-connectors-1.2.41-src/native/ make
 
-- name: install tomcat-connectors
-  become: yes
-  command: creates=/usr/libexec/apache2/mod_jk.so chdir=/usr/local/tomcat-connectors/tomcat-connectors-1.2.41-src/native/ make install
-
 - name: activate mod_php
   become: yes
   lineinfile: >
@@ -44,4 +40,4 @@
     state=present
     create=true
   with_items:
-    - { regexp: '^#?LoadModule jk_module', line: "LoadModule jk_module   libexec/apache2/mod_jk.so" }
+    - { regexp: '^#?LoadModule jk_module', line: "LoadModule jk_module  /usr/local/tomcat-connectors/tomcat-connectors-1.2.41-src/native/apache-2.0/mod_jk.so" }
