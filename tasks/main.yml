@@ -39,7 +39,7 @@
     line="{{ item.line }}"
     state=present
     create=true
-    insertafter=^#?LoadModule hfs_apple_module
+    insertafter="^#?LoadModule hfs_apple_module"
   with_items:
     - { regexp: '^#?LoadModule jk_module', line: "LoadModule jk_module  /usr/local/tomcat-connectors/tomcat-connectors-1.2.41-src/native/apache-2.0/mod_jk.so" }
 
