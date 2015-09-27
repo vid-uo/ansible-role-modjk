@@ -1,6 +1,13 @@
 ---
 # tasks file for ansible-role-modjk
 
+- name: create directory
+  file:
+    path: "{{item}}"
+    state: directory
+  with_items:
+    - /usr/local/tomcat-connectors
+
 - name: symlink xcode toolchains
   become: yes
   file: src=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain path=/Applications/Xcode.app/Contents/Developer/Toolchains/{{item}} state=link force=yes
