@@ -26,14 +26,14 @@
   unarchive: src=/usr/local/tomcat-connectors-1.2.41-src.tar.gz dest=/usr/local/tomcat-connectors copy=no
 
 - name: configure tomcat-connectors
-  command: creates=/usr/local/tomcat-connectors/native/config.status chdir=/usr/local/tomcat-connectors/native/ ./configure --with-apxs=/usr/sbin/apxs
+  command: creates=/usr/local/tomcat-connectors/tomcat-connectors-1.2.41-src/native/config.status chdir=/usr/local/tomcat-connectors/tomcat-connectors-1.2.41-src/native/ ./configure --with-apxs=/usr/sbin/apxs
 
 - name: compile tomcat-connectors
-  command: creates=/usr/local/tomcat-connectors/native/apache-2.0/mod_jk.so chdir=/usr/local/tomcat-connectors/native/ make
+  command: creates=/usr/local/tomcat-connectors/tomcat-connectors-1.2.41-src/native/apache-2.0/mod_jk.so chdir=/usr/local/tomcat-connectors/tomcat-connectors-1.2.41-src/native/ make
 
 - name: install tomcat-connectors
   become: yes
-  command: creates=/usr/libexec/apache2/mod_jk.so chdir=/usr/local/tomcat-connectors/native/ make install
+  command: creates=/usr/libexec/apache2/mod_jk.so chdir=/usr/local/tomcat-connectors/tomcat-connectors-1.2.41-src/native/ make install
 
 - name: activate mod_php
   become: yes
