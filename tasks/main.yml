@@ -1,0 +1,40 @@
+---
+# tasks file for ansible-role-modjk
+
+- name: symlink xcode toolchains
+  become: yes
+  file: src=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain path=/Applications/Xcode.app/Contents/Developer/Toolchains/{{item}} state=link force=yes
+  with_items:
+    - OSX10.10.xctoolchain
+    - OSX10.11.xctoolchain
+
+- name: symlink APR
+  become: yes
+  file: src=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk path=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.Internal.sdk state=link force=yes
+
+- name: download tomcat-connectors
+  get_url: url=http://apache.belnet.be/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.41-src.tar.gz dest=/tmp/tomcat-connectors-1.2.41-src.tar.gz mode=0777
+
+- name: extract tomcat-connectors
+  unarchive: src=/tmp/tomcat-connectors-1.2.41-src.tar.gz dest=/tmp/tomcat-connectors copy=no
+
+- name: configure tomcat-connectors
+  command: creates=/tmp/tomcat-connectors/native/config.status chdir=/tmp/tomcat-connectors/native/ ./configure --with-apxs=/usr/sbin/apxs
+
+- name: compile tomcat-connectors
+  command: creates=/tmp/tomcat-connectors/native/apache-2.0/mod_jk.so chdir=/tmp/tomcat-connectors/native/ make
+
+- name: install tomcat-connectors
+  become: yes
+  command: creates=/usr/libexec/apache2/mod_jk.so chdir=/tmp/tomcat-connectors/native/ make install
+
+- name: activate mod_php
+  become: yes
+  lineinfile: >
+    dest=/etc/apache2/httpd.conf
+    regexp="{{ item.regexp }}"
+    line="{{ item.line }}"
+    state=present
+    create=true
+  with_items:
+    - { regexp: '^#?LoadModule jk_module', line: "LoadModule jk_module   libexec/apache2/mod_jk.so" }
