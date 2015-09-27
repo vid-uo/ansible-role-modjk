@@ -43,6 +43,7 @@
     - { regexp: '^#?LoadModule jk_module', line: "LoadModule jk_module  /usr/local/tomcat-connectors/tomcat-connectors-1.2.41-src/native/apache-2.0/mod_jk.so" }
 
 - name: configure mod_jk
+  become: yes
   copy:
     src: jk.conf
     dest: /etc/apache2/other/jk.conf
