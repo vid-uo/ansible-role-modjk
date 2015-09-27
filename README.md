@@ -5,6 +5,7 @@ Ansible role to compile and install mod_jk on OSX. This role is part of the Supe
 ## Requirements
 
 * OSX 10.10 or 10.11
+* A full Xcode install
 
 # Usage
 
