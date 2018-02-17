@@ -14,10 +14,12 @@
   with_items:
     - OSX10.10.xctoolchain
     - OSX10.11.xctoolchain
+    - OSX10.12.xctoolchain
+    - OSX10.13.xctoolchain
 
 - name: symlink APR
   become: yes
-  file: src=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk path=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.Internal.sdk state=link force=yes
+  file: src=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk path=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.Internal.sdk state=link force=yes
 
 - name: download tomcat-connectors
   get_url: url=http://apache.belnet.be/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.41-src.tar.gz dest=/usr/local/tomcat-connectors-1.2.41-src.tar.gz mode=0777
